@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resource :projects do
         resource :bugs do
           resource :comments
+          resource :assigns, only: [:create, :destroy]
         end
       end
     end
