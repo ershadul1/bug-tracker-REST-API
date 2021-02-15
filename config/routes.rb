@@ -6,7 +6,9 @@ Rails.application.routes.draw do
       get '/auto_login', to: "users#auto_login"
 
       resource :projects do
-        resource :bugs
+        resource :bugs do
+          resource :comments
+        end
       end
     end
   end
