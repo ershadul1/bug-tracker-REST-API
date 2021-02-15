@@ -1,6 +1,5 @@
 module Api
   module V1
-
     class ResolvesController < ApplicationController
       def create
         resolve = Resolve.create(resolve_params)
@@ -8,9 +7,10 @@ module Api
         if resolve.valid?
           bug.status = 'resolved'
           bug.save
-          render json: {status: 'SUCCESS', message:'Resolved bug', data: resolve},status: :ok
+          render json: { status: 'SUCCESS', message: 'Resolved bug', data: resolve }, status: :ok
         else
-          render json: {status: 'ERROR', message:'Bug not resolved', data: resolve.errors },status: :unprocessable_entity
+          render json: { status: 'ERROR', message: 'Bug not resolved', data: resolve.errors },
+                 status: :unprocessable_entity
         end
       end
 
@@ -20,9 +20,10 @@ module Api
         if resolve.destroy
           bug.status = 'assigned'
           bug.save
-          render json: {status: 'SUCCESS', message:'Destroyed bug resolve', data: resolve},status: :ok
+          render json: { status: 'SUCCESS', message: 'Destroyed bug resolve', data: resolve }, status: :ok
         else
-          render json: {status: 'ERROR', message:'Resolve not destroyed', data: resolve.errors },status: :unprocessable_entity
+          render json: { status: 'ERROR', message: 'Resolve not destroyed', data: resolve.errors },
+                 status: :unprocessable_entity
         end
       end
 

@@ -1,18 +1,18 @@
 module Api
   module V1
     class BugsController < ApplicationController
-      
       def show
-        bugs = Bug.order('created_at DESC');
-        render json: {status: 'SUCCESS', message:'Loaded bug reports', data:bugs},status: :ok
+        bugs = Bug.order('created_at DESC')
+        render json: { status: 'SUCCESS', message: 'Loaded bug reports', data: bugs }, status: :ok
       end
 
       def create
         bug = Bug.create(bug_params)
         if bug.valid?
-          render json: {status: 'SUCCESS', message:'Created bug report', data: bug},status: :ok
+          render json: { status: 'SUCCESS', message: 'Created bug report', data: bug }, status: :ok
         else
-          render json: {status: 'ERROR', message:'Bug report not saved', data: bug.errors },status: :unprocessable_entity
+          render json: { status: 'ERROR', message: 'Bug report not saved', data: bug.errors },
+                 status: :unprocessable_entity
         end
       end
 
@@ -21,19 +21,21 @@ module Api
         bug.update(bug_params)
 
         if bug.save
-          render json: {status: 'SUCCESS', message:'Updated bug report', data: bug},status: :ok
+          render json: { status: 'SUCCESS', message: 'Updated bug report', data: bug }, status: :ok
         else
-          render json: {status: 'ERROR', message:'Bug report not updated', data: bug.errors },status: :unprocessable_entity
+          render json: { status: 'ERROR', message: 'Bug report not updated', data: bug.errors },
+                 status: :unprocessable_entity
         end
       end
 
       def destroy
         bug = Bug.find_by(id: params[:id])
-        
+
         if bug.destroy
-          render json: {status: 'SUCCESS', message:'Destroyed bug report', data: bug},status: :ok
+          render json: { status: 'SUCCESS', message: 'Destroyed bug report', data: bug }, status: :ok
         else
-          render json: {status: 'ERROR', message:'Bug report not destroyed', data: bug.errors },status: :unprocessable_entity
+          render json: { status: 'ERROR', message: 'Bug report not destroyed', data: bug.errors },
+                 status: :unprocessable_entity
         end
       end
 
