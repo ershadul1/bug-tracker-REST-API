@@ -9,6 +9,7 @@ Rails.application.routes.draw do
         resource :bugs do
           resource :comments
           resource :assigns, only: [:create, :destroy]
+          resource :resolves, only: [:create, :destroy]
         end
       end
     end
