@@ -3,4 +3,5 @@ class User < ApplicationRecord
   validates :username, presence: true
   validates :password, presence:true
   validates_uniqueness_of :username
+  has_many :assigns
 end
