@@ -29,7 +29,7 @@ module Api
       end
 
       def update
-        @user = User.find_by(username: params[:username])
+        @user = User.find_by(id: params[:id])
         @user.update(user_params)
 
         if @user.save
@@ -43,7 +43,7 @@ module Api
       private
 
       def user_params
-        params.permit(:username, :password)
+        params.permit(:username, :password, :id)
       end
     end
   end
