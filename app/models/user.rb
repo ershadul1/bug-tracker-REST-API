@@ -4,4 +4,5 @@ class User < ApplicationRecord
   validates :password, presence: true
   validates_uniqueness_of :username
   has_many :assigns
+  has_many :resolves
 end
