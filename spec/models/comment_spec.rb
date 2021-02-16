@@ -44,6 +44,4 @@ RSpec.describe Comment, type: :model do
       expect(bug1.comments.count).to eql(2)
     end
   end
-
-  
 end

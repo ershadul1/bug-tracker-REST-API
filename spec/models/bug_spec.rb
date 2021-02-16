@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Bug, type: :model do
   context 'Validates Bug title' do
-    
     it 'Should be valid' do
       user = User.create(username: 'rayhan', password: '1234')
       project = Project.create(title: 'Essential', description: 'Project description')
@@ -21,7 +20,6 @@ RSpec.describe Bug, type: :model do
   end
 
   context 'Validates Bug description' do
-
     it 'Should be valid' do
       user = User.create(username: 'rayhan', password: '1234')
       project = Project.create(title: 'Essential', description: 'Project description')

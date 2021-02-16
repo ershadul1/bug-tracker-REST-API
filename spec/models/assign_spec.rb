@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Assign, type: :model do
   context 'Validates bug_id' do
-    
     it 'Should be valid' do
       user = User.create(username: 'rayhan', password: '1234')
       project = Project.create(title: 'Essential', description: 'Project description')
@@ -17,7 +16,7 @@ RSpec.describe Assign, type: :model do
       project = Project.create(title: 'Essential', description: 'Project description')
       bug = Bug.new(title: '', description: 'Bug description1', author_id: user.id)
       project.bugs << bug
-      assignment1 = Assign.create(bug_id: bug.id, user_id: user.id)
+      Assign.create(bug_id: bug.id, user_id: user.id)
       assignment2 = Assign.create(bug_id: bug.id, user_id: user.id)
       expect(assignment2.save).not_to be true
     end
@@ -40,10 +39,10 @@ RSpec.describe Assign, type: :model do
       project = Project.create(title: 'Essential', description: 'Project description')
       bug1 = Bug.new(title: 'Bug 1', description: 'bug description 1', author_id: user.id)
       project.bugs << bug1
-      assignment1 = Assign.create(bug_id: bug1.id, user_id: user.id)
+      Assign.create(bug_id: bug1.id, user_id: user.id)
       bug2 = Bug.new(title: 'Bug 2', description: 'bug description 2', author_id: user.id)
       project.bugs << bug2
-      assignment2 = Assign.create(bug_id: bug2.id, user_id: user.id)
+      Assign.create(bug_id: bug2.id, user_id: user.id)
       expect(user.assigns.count).to eql(2)
     end
   end

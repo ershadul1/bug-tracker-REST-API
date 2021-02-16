@@ -24,5 +24,4 @@ RSpec.describe User, type: :model do
       expect(user.save).not_to be true
     end
   end
-
 end
