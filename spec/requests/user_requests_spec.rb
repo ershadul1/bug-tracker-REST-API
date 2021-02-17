@@ -66,9 +66,12 @@ RSpec.describe 'Users', type: :request do
       post '/api/v1/users', params: { username: 'Batman', password: 'arkham' }
       json_response = JSON.parse(response.body)
       id = json_response['user']['id']
-      put '/api/v1/users', params: { username: 'Batman', password: 'arkham', id: id }
+      token = json_response['token']
+      put '/api/v1/users',
+          headers: { Authorization: "Bearer #{token}" },
+          params: { username: 'Batman', password: '', id: id }
       json_response = JSON.parse(response.body)
-      expect(json_response.keys).to match_array(['message'])
+      expect(json_response['error']).to eq('Unable to change username and password')
     end
   end
 end
