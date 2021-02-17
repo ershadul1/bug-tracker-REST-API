@@ -31,9 +31,14 @@ RSpec.describe 'Projects', type: :request do
     end
 
     it 'fails to create a project' do
-      post '/api/v1/projects'
+      post '/api/v1/users', params: { username: 'Batman', password: 'arkham' }
       json_response = JSON.parse(response.body)
-      expect(json_response.keys).to match_array(['message'])
+      token = json_response['token']
+      post '/api/v1/projects',
+           headers: { Authorization: "Bearer #{token}" },
+           params: { title: 'Project Title', description: '' }
+      json_response = JSON.parse(response.body)
+      expect(json_response['message']).to eq('Project not created')
     end
   end
 
@@ -54,17 +59,20 @@ RSpec.describe 'Projects', type: :request do
       expect(json_response['data']['title']).to eq('Project Title Changed')
     end
 
-    it 'fails to create a project' do
+    it 'fails to update a project' do
       post '/api/v1/users', params: { username: 'Batman', password: 'arkham' }
       json_response = JSON.parse(response.body)
       token = json_response['token']
       post '/api/v1/projects',
            headers: { Authorization: "Bearer #{token}" },
            params: { title: 'Project Title', description: 'Project description' }
-      put '/api/v1/projects',
-          params: { title: 'Project Title Changed', description: 'Project description changed' }
       json_response = JSON.parse(response.body)
-      expect(json_response.keys).to match_array(['message'])
+      id = json_response['data']['id']
+      put '/api/v1/projects',
+          headers: { Authorization: "Bearer #{token}" },
+          params: { title: 'Project Title Changed', description: '', id: id }
+      json_response = JSON.parse(response.body)
+      expect(json_response['message']).to eq('Project not updated')
     end
   end
 
@@ -82,21 +90,6 @@ RSpec.describe 'Projects', type: :request do
                                  params: { id: id }
       json_response = JSON.parse(response.body)
       expect(json_response['message']).to eq('Destroyed project')
-    end
-
-    it 'fails to delete a project' do
-      post '/api/v1/users', params: { username: 'Batman', password: 'arkham' }
-      json_response = JSON.parse(response.body)
-      token = json_response['token']
-      post '/api/v1/projects',
-           headers: { Authorization: "Bearer #{token}" },
-           params: { title: 'Project Title', description: 'Project description' }
-      json_response = JSON.parse(response.body)
-      id = json_response['data']['id']
-      delete '/api/v1/projects',
-             params: { id: id }
-      json_response = JSON.parse(response.body)
-      expect(json_response['message']).to eq('Please log in')
     end
   end
 end
