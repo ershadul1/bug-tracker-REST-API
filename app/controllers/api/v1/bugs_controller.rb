@@ -1,9 +1,17 @@
 module Api
   module V1
     class BugsController < ApplicationController
-      def show
+      def index
         bugs = Bug.order('created_at DESC')
         render json: { status: 'SUCCESS', message: 'Loaded bug reports', data: bugs }, status: :ok
+      end
+
+      def show
+        bug = Bug.find_by(id: params[:id])
+        render json: { status: 'SUCCESS', message: 'Loaded bug report', 
+        data: {bug: bug, comments: bug.comments, assign: bug.assign,
+        resolve: bug.resolve, assignee_name: User.find_by(id: bug.assign.user_id).username,
+        author_name: User.find_by(id: bug.author_id).username }}, status: :ok
       end
 
       def create
