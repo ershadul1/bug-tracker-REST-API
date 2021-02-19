@@ -6,7 +6,9 @@ Rails.application.routes.draw do
       get '/auto_login', to: "users#auto_login"
 
       resource :projects do
+        get '/all', to: "projects#index"
         resource :bugs do
+          get '/all', to: "bugs#index"
           resource :comments
           resource :assigns, only: [:create, :destroy]
           resource :resolves, only: [:create, :destroy]
