@@ -1,9 +1,14 @@
 module Api
   module V1
     class ProjectsController < ApplicationController
-      def show
+      def index
         projects = Project.order('created_at DESC')
         render json: { status: 'SUCCESS', message: 'Loaded projects', data: projects }, status: :ok
+      end
+
+      def show
+        project = Project.find_by(id: params[:id])
+        render json: { status: 'SUCCESS', message: 'Loaded project', data: {project: project, bugs: project.bugs } }, status: :ok
       end
 
       def create
