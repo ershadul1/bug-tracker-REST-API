@@ -10,7 +10,7 @@ module Api
         bug = Bug.find_by(id: params[:id])
         render json: { status: 'SUCCESS', message: 'Loaded bug report', 
         data: {bug: bug, comments: bug.comments, assign: bug.assign,
-        resolve: bug.resolve, assignee_name: User.find_by(id: bug.assign.user_id).username,
+        resolve: bug.resolve, assignee_name: bug.assign ? User.find_by(id: bug.assign.user_id).username : nil,
         author_name: User.find_by(id: bug.author_id).username }}, status: :ok
       end
 
