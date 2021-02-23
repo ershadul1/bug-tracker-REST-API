@@ -6,7 +6,7 @@ RSpec.describe 'Projects', type: :request do
       post '/api/v1/users', params: { username: 'Batman', password: 'arkham' }
       json_response = JSON.parse(response.body)
       token = json_response['token']
-      get '/api/v1/projects', headers: { Authorization: "Bearer #{token}" }
+      get '/api/v1/projects/all', headers: { Authorization: "Bearer #{token}" }
       json_response = JSON.parse(response.body)
       expect(json_response['status']).to eq('SUCCESS')
     end
