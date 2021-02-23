@@ -7,9 +7,9 @@ module Api
         @user = User.create(user_params)
         if @user.valid?
           token = encode_token({ user_id: @user.id })
-          render json: { user: @user, token: token }
+          render json: { status: 'SUCCESS', user: @user, token: token }
         else
-          render json: { error: 'Invalid username or password' }
+          render json: { status: 'FAILURE', error: 'Invalid username or password' }
         end
       end
 
@@ -18,9 +18,9 @@ module Api
 
         if @user&.authenticate(params[:password])
           token = encode_token({ user_id: @user.id })
-          render json: { user: @user, token: token }
+          render json: { status: 'SUCCESS', user: @user, token: token }
         else
-          render json: { error: 'Invalid username or password' }
+          render json: { status: 'FAILURE', error: 'Invalid username or password' }
         end
       end
 
