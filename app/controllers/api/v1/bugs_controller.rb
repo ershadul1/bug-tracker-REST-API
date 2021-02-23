@@ -8,11 +8,13 @@ module Api
 
       def show
         bug = Bug.find_by(id: params[:id])
-        render json: { status: 'SUCCESS', message: 'Loaded bug report', 
-        data: {bug: bug, comments: bug.comments, assign: bug.assign,
-        users: User.where(id: bug.comments.pluck(:user_id)),
-        resolve: bug.resolve, assignee_name: bug.assign ? User.find_by(id: bug.assign.user_id).username : nil,
-        author_name: User.find_by(id: bug.author_id).username }}, status: :ok
+        render json: {
+          status: 'SUCCESS', message: 'Loaded bug report',
+          data: { bug: bug, comments: bug.comments, assign: bug.assign,
+                  users: User.where(id: bug.comments.pluck(:user_id)),
+                  resolve: bug.resolve, assignee_name: bug.assign ? User.find_by(id: bug.assign.user_id).username : nil,
+                  author_name: User.find_by(id: bug.author_id).username }
+        }, status: :ok
       end
 
       def create

@@ -9,7 +9,9 @@ module Api
       def show
         project = Project.find_by(id: params[:id])
         if project
-          render json: { status: 'SUCCESS', message: 'Loaded project', data: {project: project, bugs: project.bugs } }, status: :ok
+          render json: {
+            status: 'SUCCESS', message: 'Loaded project', data: { project: project, bugs: project.bugs }
+          }, status: :ok
         else
           render json: { status: 'ERROR', message: 'Project not found' },
                  status: :unprocessable_entity
