@@ -7,8 +7,9 @@ module Api
       end
 
       def create
-        comment = Comment.create(comment_params)
-        if comment.valid?
+        comment = @user.comments.new(comment_params)
+
+        if comment.save
           render json: { status: 'SUCCESS', message: 'Created comment', data: comment }, status: :ok
         else
           render json: { status: 'ERROR', message: 'Comment not saved', data: comment.errors },
@@ -18,9 +19,8 @@ module Api
 
       def update
         comment = Comment.find_by(id: params[:id])
-        comment.update(comment_params)
 
-        if comment.save
+        if comment.update(comment_params)
           render json: { status: 'SUCCESS', message: 'Updated comment', data: comment }, status: :ok
         else
           render json: { status: 'ERROR', message: 'Comment not updated', data: comment.errors },
@@ -42,7 +42,7 @@ module Api
       private
 
       def comment_params
-        params.permit(:id, :bug_id, :content, :user_id)
+        params.permit(:content, :bug_id)
       end
     end
   end
