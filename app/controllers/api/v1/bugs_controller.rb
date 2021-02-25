@@ -7,19 +7,14 @@ module Api
       end
 
       def show
-        bug = Bug.find_by(id: params[:id])
-        render json: {
-          status: 'SUCCESS', message: 'Loaded bug report',
-          data: { bug: bug, comments: bug.comments, assign: bug.assign,
-                  users: User.where(id: bug.comments.pluck(:user_id)),
-                  resolve: bug.resolve, assignee_name: bug.assign ? User.find_by(id: bug.assign.user_id).username : nil,
-                  author_name: User.find_by(id: bug.author_id).username }
-        }, status: :ok
+        bug = Bug.find(params[:id])
+        render json: { status: 'SUCCESS', message: 'Loaded bug report', data: bug.details }, status: :ok
       end
 
       def create
-        bug = Bug.create(bug_params)
-        if bug.valid?
+        bug = Bug.new(bug_params)
+
+        if bug.save
           render json: { status: 'SUCCESS', message: 'Created bug report', data: bug }, status: :ok
         else
           render json: { status: 'ERROR', message: 'Bug report not saved', data: bug.errors },
@@ -29,9 +24,8 @@ module Api
 
       def update
         bug = Bug.find_by(id: params[:id])
-        bug.update(bug_params)
 
-        if bug.save
+        if bug.update(bug_params)
           render json: { status: 'SUCCESS', message: 'Updated bug report', data: bug }, status: :ok
         else
           render json: { status: 'ERROR', message: 'Bug report not updated', data: bug.errors },
@@ -53,7 +47,7 @@ module Api
       private
 
       def bug_params
-        params.permit(:id, :title, :description, :project_id, :author_id, :priority, :status)
+        params.permit(:title, :description, :project_id, :author_id, :priority, :status)
       end
     end
   end
