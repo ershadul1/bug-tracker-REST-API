@@ -5,4 +5,6 @@ class User < ApplicationRecord
   validates_uniqueness_of :username
   has_many :assigns
   has_many :resolves
+  has_many :comments
+  has_many :bugs
 end
