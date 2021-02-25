@@ -1,11 +1,15 @@
 class Encryption
+  def initialize(request = nil)
+    @request = request
+  end
+
   def encode_token(payload)
     JWT.encode(payload, 'haHahaN1ce0neDud3')
   end
 
   def auth_header
     # { Authorization: 'Bearer <token>' }
-    request.headers['Authorization']
+    @request.headers['Authorization']
   end
 
   def decoded_token
