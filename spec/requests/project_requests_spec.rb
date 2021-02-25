@@ -6,7 +6,7 @@ RSpec.describe 'Projects', type: :request do
       post '/api/v1/users', params: { username: 'Batman', password: 'arkham' }
       json_response = JSON.parse(response.body)
       token = json_response['token']
-      get '/api/v1/projects/all', headers: { Authorization: "Bearer #{token}" }
+      get '/api/v1/projects', headers: { Authorization: "Bearer #{token}" }
       json_response = JSON.parse(response.body)
       expect(json_response['status']).to eq('SUCCESS')
     end
@@ -52,9 +52,9 @@ RSpec.describe 'Projects', type: :request do
            params: { title: 'Project Title', description: 'Project description' }
       json_response = JSON.parse(response.body)
       id = json_response['data']['id']
-      put '/api/v1/projects',
+      put "/api/v1/projects/#{id}",
           headers: { Authorization: "Bearer #{token}" },
-          params: { title: 'Project Title Changed', description: 'Project description changed', id: id }
+          params: { title: 'Project Title Changed', description: 'Project description changed' }
       json_response = JSON.parse(response.body)
       expect(json_response['data']['title']).to eq('Project Title Changed')
     end
@@ -68,7 +68,7 @@ RSpec.describe 'Projects', type: :request do
            params: { title: 'Project Title', description: 'Project description' }
       json_response = JSON.parse(response.body)
       id = json_response['data']['id']
-      put '/api/v1/projects',
+      put "/api/v1/projects/#{id}",
           headers: { Authorization: "Bearer #{token}" },
           params: { title: 'Project Title Changed', description: '', id: id }
       json_response = JSON.parse(response.body)
@@ -86,7 +86,7 @@ RSpec.describe 'Projects', type: :request do
            params: { title: 'Project Title', description: 'Project description' }
       json_response = JSON.parse(response.body)
       id = json_response['data']['id']
-      delete '/api/v1/projects', headers: { Authorization: "Bearer #{token}" },
+      delete "/api/v1/projects/#{id}", headers: { Authorization: "Bearer #{token}" },
                                  params: { id: id }
       json_response = JSON.parse(response.body)
       expect(json_response['message']).to eq('Destroyed project')
