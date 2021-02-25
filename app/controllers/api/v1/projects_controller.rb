@@ -7,7 +7,8 @@ module Api
       end
 
       def show
-        project = Project.find_by(id: params[:id])
+        project = Project.find(params[:id])
+
         if project
           render json: {
             status: 'SUCCESS', message: 'Loaded project', data: { project: project, bugs: project.bugs }
@@ -19,8 +20,9 @@ module Api
       end
 
       def create
-        project = Project.create(project_params)
-        if project.valid?
+        project = Project.new(project_params)
+
+        if project.save
           render json: { status: 'SUCCESS', message: 'Created project', data: project }, status: :ok
         else
           render json: { status: 'ERROR', message: 'Project not created', data: project.errors },
@@ -29,10 +31,9 @@ module Api
       end
 
       def update
-        project = Project.find_by(id: params[:id])
-        project.update(project_params)
+        project = Project.find(params[:id])
 
-        if project.save
+        if project.update(project_params)
           render json: { status: 'SUCCESS', message: 'Updated project', data: project }, status: :ok
         else
           render json: { status: 'ERROR', message: 'Project not updated', data: project.errors },
@@ -41,7 +42,7 @@ module Api
       end
 
       def destroy
-        project = Project.find_by(id: params[:id])
+        project = Project.find(params[:id])
 
         if project.destroy
           render json: { status: 'SUCCESS', message: 'Destroyed project', data: project }, status: :ok
@@ -54,7 +55,7 @@ module Api
       private
 
       def project_params
-        params.permit(:id, :title, :description)
+        params.permit(:title, :description)
       end
     end
   end
