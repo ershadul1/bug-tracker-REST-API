@@ -12,10 +12,10 @@ module Api
 
         if @user.save
           encryption = Encryption.new
-          token = encryption.encode_token({ user_id: @user.id }).
+          token = encryption.encode_token({ user_id: @user.id })
           render json: { status: 'SUCCESS', user: @user, token: token }, status: :ok
         else
-          render json: { status: 'FAILURE', error: 'Invalid username or password' },
+          render json: { status: 'FAILURE', error: 'Username already exists. Choose a different username' },
                  status: :unprocessable_entity
         end
       end
