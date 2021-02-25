@@ -7,7 +7,8 @@ module Api
         @user = User.find_by(username: params[:username])
 
         if @user&.authenticate(params[:password])
-          token = encode_token({ user_id: @user.id })
+          encryption = Encryption.new
+          token = encryption.encode_token({ user_id: @user.id })
           render json: { status: 'SUCCESS', user: @user, token: token }, status: :ok
         else
           render json: { status: 'FAILURE', error: 'Invalid username or password' },

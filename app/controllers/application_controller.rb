@@ -2,9 +2,11 @@ class ApplicationController < ActionController::API
   before_action :authorized
 
   def logged_in_user
-    return unless Encryption.new(decoded_token)
+    encryption = Encryption.new(request)
+    decode = encryption.decoded_token
+    return unless decode
 
-    user_id = decoded_token[0]['user_id']
+    user_id = decode[0]['user_id']
     @user = User.find_by(id: user_id)
   end
 

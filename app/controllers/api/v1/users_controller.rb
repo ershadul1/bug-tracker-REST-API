@@ -11,7 +11,8 @@ module Api
         @user = User.new(user_params)
 
         if @user.save
-          token = Encryption.new(encode_token({ user_id: @user.id }))
+          encryption = Encryption.new
+          token = encryption.encode_token({ user_id: @user.id }).
           render json: { status: 'SUCCESS', user: @user, token: token }, status: :ok
         else
           render json: { status: 'FAILURE', error: 'Invalid username or password' },
@@ -23,7 +24,8 @@ module Api
         @user = User.find_by(id: params[:id])
 
         if @user.update(user_params)
-          token = encode_token({ user_id: @user.id })
+          encryption = Encryption.new
+          token = encryption.encode_token({ user_id: @user.id })
           render json: { status: 'SUCCESS', user: @user, token: token }, status: :ok
         else
           render json: { status: 'FAILURE', error: 'Unable to change username and password' },
