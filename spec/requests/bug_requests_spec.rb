@@ -20,11 +20,10 @@ RSpec.describe 'Bugs', type: :request do
       json_response = JSON.parse(response.body)
       user_id = json_response['user']['id']
       token = json_response['token']
-      project_id = Project.first.id
       post "/api/v1/projects/#{project.id}/bugs",
            headers: { Authorization: "Bearer #{token}" },
            params: { title: 'Bug report Title', description: 'bug description',
-                   author_id: user_id }
+                     author_id: user_id }
       json_response = JSON.parse(response.body)
       expect(json_response['status']).to eq('SUCCESS')
     end

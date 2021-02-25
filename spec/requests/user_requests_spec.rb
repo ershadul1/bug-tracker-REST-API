@@ -11,11 +11,9 @@ RSpec.describe 'Users', type: :request do
     it 'fails to create new User' do
       post '/api/v1/users', params: { username: 'Batman', password: '' }
       json_response = JSON.parse(response.body)
-      expect(json_response.keys).to match_array(['error', 'status'])
+      expect(json_response.keys).to match_array(%w[error status])
     end
   end
-
-
 
   describe 'GET user' do
     it 'get User data' do
@@ -29,7 +27,7 @@ RSpec.describe 'Users', type: :request do
 
     it 'fails to get User data' do
       post '/api/v1/users', params: { username: 'Batman', password: 'arkham' }
-      get '/api/v1/users', headers: { Authorization: "Bearer 1234" }
+      get '/api/v1/users', headers: { Authorization: 'Bearer 1234' }
       json_response = JSON.parse(response.body)
       expect(json_response.keys).to match_array(['message'])
     end
@@ -41,7 +39,7 @@ RSpec.describe 'Users', type: :request do
       json_response = JSON.parse(response.body)
       id = json_response['user']['id']
       token = json_response['token']
-      put "/api/v1/users", headers: { Authorization: "Bearer #{token}" },
+      put '/api/v1/users', headers: { Authorization: "Bearer #{token}" },
                            params: { username: 'Superman', password: 'arkham', id: id }
       json_response = JSON.parse(response.body)
       expect(json_response['user']['username']).to eq('Superman')

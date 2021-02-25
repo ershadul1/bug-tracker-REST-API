@@ -13,7 +13,7 @@ RSpec.describe 'Sessions', type: :request do
       User.create(username: 'Batman', password: 'arkham')
       post '/api/v1/sessions', params: { username: 'Batman', password: 'arkha' }
       json_response = JSON.parse(response.body)
-      expect(json_response.keys).to match_array(['error', 'status'])
+      expect(json_response.keys).to match_array(%w[error status])
     end
   end
 end

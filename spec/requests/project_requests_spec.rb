@@ -87,7 +87,7 @@ RSpec.describe 'Projects', type: :request do
       json_response = JSON.parse(response.body)
       id = json_response['data']['id']
       delete "/api/v1/projects/#{id}", headers: { Authorization: "Bearer #{token}" },
-                                 params: { id: id }
+                                       params: { id: id }
       json_response = JSON.parse(response.body)
       expect(json_response['message']).to eq('Destroyed project')
     end
