@@ -8,10 +8,10 @@ module Api
       end
 
       def create
-        @user = User.create(user_params)
+        @user = User.new(user_params)
 
-        if @user.valid?
-          token = encode_token({ user_id: @user.id })
+        if @user.save
+          token = Encryption.new(encode_token({ user_id: @user.id }))
           render json: { status: 'SUCCESS', user: @user, token: token }, status: :ok
         else
           render json: { status: 'FAILURE', error: 'Invalid username or password' },

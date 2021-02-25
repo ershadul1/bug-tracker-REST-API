@@ -1,29 +1,8 @@
 class ApplicationController < ActionController::API
   before_action :authorized
 
-  def encode_token(payload)
-    JWT.encode(payload, 'haHahaN1ce0neDud3')
-  end
-
-  def auth_header
-    # { Authorization: 'Bearer <token>' }
-    request.headers['Authorization']
-  end
-
-  def decoded_token
-    return unless auth_header
-
-    token = auth_header.split(' ')[1]
-    # header: { 'Authorization': 'Bearer <token>' }
-    begin
-      JWT.decode(token, 'haHahaN1ce0neDud3', true, algorithm: 'HS256')
-    rescue JWT::DecodeError
-      nil
-    end
-  end
-
   def logged_in_user
-    return unless decoded_token
+    return unless Encryption.new(decoded_token)
 
     user_id = decoded_token[0]['user_id']
     @user = User.find_by(id: user_id)
