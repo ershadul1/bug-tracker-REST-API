@@ -7,7 +7,7 @@ module Api
       end
 
       def create
-        comment = @user.comments.new(comment_params)
+        comment = Comment.new_user_comment(@user, comment_params)
 
         if comment.save
           render json: { status: 'SUCCESS', message: 'Created comment', data: comment }, status: :ok

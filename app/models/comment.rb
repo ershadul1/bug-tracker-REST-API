@@ -6,4 +6,9 @@ class Comment < ApplicationRecord
   def self.bug_comments(bug_id)
     Comment.where(bug_id: bug_id).order(created_at: :desc)
   end
+
+  def self.new_user_comment(user, comment_params)
+    user_comments = user.comments
+    user_comments.new(comment_params)
+  end
 end
