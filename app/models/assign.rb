@@ -15,4 +15,9 @@ class Assign < ApplicationRecord
     bug.status = 'open'
     bug.save
   end
+
+  def self.new_user_assign(user, assign_params)
+    user_assigns = user.assigns
+    user_assigns.new(assign_params)
+  end
 end

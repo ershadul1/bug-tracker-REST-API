@@ -2,7 +2,7 @@ module Api
   module V1
     class AssignsController < ApplicationController
       def create
-        assign = @user.assigns.new(assign_params)
+        assign = Assign.new_user_assign(@user, assign_params)
         if assign.save
           render json: { status: 'SUCCESS', message: 'Assigned bug', data: assign }, status: :ok
         else
