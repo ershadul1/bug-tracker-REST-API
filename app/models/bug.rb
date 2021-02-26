@@ -7,6 +7,8 @@ class Bug < ApplicationRecord
   validates :title, presence: true
   validates :description, presence: true
 
+  scope :order_created, -> { order(created_at: :desc) }
+  
   def details
     { bug: self, author_name: author.username, comments: comments,
       assign: assign, assignee_name: assign ? assign.user.username : nil,

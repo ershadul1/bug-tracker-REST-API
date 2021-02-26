@@ -2,7 +2,7 @@ module Api
   module V1
     class BugsController < ApplicationController
       def index
-        bugs = Bug.order('created_at DESC')
+        bugs = Bug.order_created
         render json: { status: 'SUCCESS', message: 'Loaded bug reports', data: bugs }, status: :ok
       end
 
