@@ -2,7 +2,7 @@ module Api
   module V1
     class CommentsController < ApplicationController
       def show
-        comments = Comment.where(bug_id: params[:bug_id]).order('created_at DESC')
+        comments = Comment.bug_comments(params[:bug_id])
         render json: { status: 'SUCCESS', message: 'Loaded comments', data: comments }, status: :ok
       end
 
